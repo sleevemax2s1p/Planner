@@ -1,0 +1,34 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "",
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "includePath": [
+        "/home/helab/ego-planner/devel/include/**",
+        "/opt/ros/melodic/include/**",
+        "/home/helab/ego-planner/src/planner/bspline_opt/include/**",
+        "/home/helab/esdf/src/VINS-Fusion/camera_models/include/**",
+        "/home/helab/catkin_ws/src/create_rviz/include/**",
+        "/home/helab/ego-planner/src/planner/plan_manage/include/**",
+        "/home/helab/esdf/src/Fiesta/include/**",
+        "/home/helab/ego-planner/src/uav_simulator/mockamap/include/**",
+        "/home/helab/ego-planner/src/uav_simulator/Utils/multi_map_server/include/**",
+        "/home/helab/ego-planner/src/planner/path_searching/include/**",
+        "/home/helab/ego-planner/src/planner/plan_env/include/**",
+        "/home/helab/course/src/planner/include/**",
+        "/home/helab/ego-planner/src/uav_simulator/Utils/pose_utils/include/**",
+        "/home/helab/ego-planner/src/uav_simulator/Utils/quadrotor_msgs/include/**",
+        "/home/helab/ego-planner/src/realsense2_camera/include/**",
+        "/home/helab/ego-planner/src/uav_simulator/so3_control/include/**",
+        "/home/helab/ego-planner/src/uav_simulator/so3_quadrotor_simulator/include/**",
+        "/home/helab/ego-planner/src/planner/traj_utils/include/**",
+        "/home/helab/ego-planner/src/uav_simulator/Utils/uav_utils/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS"
+    }
+  ],
+  "version": 4
+}
