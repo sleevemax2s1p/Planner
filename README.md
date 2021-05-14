@@ -1,10 +1,8 @@
 # Planner
 # How to start
 ```
-mkdir -p course
-cd sourse
-mkdir src
-cd src
+mkdir -p course/src
+cd sourse/src
 git clone https://github.com/sleevemax2s1p/Planner.git
 cd ..
 catkin_make
