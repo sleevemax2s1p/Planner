@@ -1,6 +1,6 @@
 <launch>
-        <node pkg="planner" type = "plan_node" name="plan_node">
-            <param name="sx" value="0" type="int"/>
+        <node pkg="planner" type = "plan_node" name="plan_node" output="screen">
+            <param name="sx" value="8" type="int"/>
             <param name="sy" value="0" type="int"/>
             <param name="sz" value="0" type="int"/>
             <param name="ex" value="1" type="int"/>

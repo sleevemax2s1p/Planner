@@ -8,13 +8,16 @@ int main(int argc, char **argv)
     ros::init(argc,argv,"plan_node");
     ros::NodeHandle nh;
 
-    nh.param("sx",sx,0);
+    nh.param("sx",sx,-1);
     nh.param("ex",ex,2);
     nh.param("sy",sy,0);
     nh.param("ey",ey,2);
     nh.param("sz",sz,0);
     nh.param("ez",ez,2);
-    std::cout<<"sx:"<<sx<<"sy:"<<sy<<"sz:"<<sz<<"ex:"<<ex<<"ey:"<<ey<<"ez:"<<ey<<endl;
+    std::string s = "sx:";
+    s.append(std::to_string(sx));
+    ROS_INFO(s.c_str());
+    ROS_INFO("start");
     vector<vector<vector<int>>> map_data(10,vector<vector<int>>(5,vector<int>(14)));
     map_data[0] = {{0,0,1,0,0,1,1,0,1,1,1,1,1,1},
                    {1,0,0,0,1,0,1,0,1,0,1,0,1,1},
