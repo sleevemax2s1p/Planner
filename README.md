@@ -1,4 +1,5 @@
 # Planner
+run on **ubuntu18.04,16.04**
 # How to start
 ```
 mkdir -p course/src

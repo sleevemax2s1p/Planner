@@ -7,4 +7,6 @@
             <param name="ey" value="1" type="int"/>
             <param name="ez" value="1" type="int"/>
         </node>
+        <node pkg="rviz" type="rviz" name="rviz" args="-d $(find planner)/launch/rviz.rviz" required = "true">
+        </node>
 </launch>
