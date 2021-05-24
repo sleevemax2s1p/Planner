@@ -87,7 +87,7 @@ int main(int argc, char **argv)
 
     
     std::list<Point*>* path = a.getPath(start_point,end_point,*time,*distance);
-    std::cout<<"plan finished-----------------------"<<endl<<"time consume:"<<time<<"s"<<"       path total distance:"<<distance<<"m"<<endl;
+    std::cout<<"plan finished-----------------------"<<endl<<"time consume:"<<*time<<"s"<<"       path total distance:"<<*distance<<"m"<<endl;
     //std::list<Point*> path;
 
     //v.draw_path(a.getPath(start_point,end_point));

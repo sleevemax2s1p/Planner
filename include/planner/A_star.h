@@ -131,19 +131,19 @@ std::list<Point*>* A_star::getPath(Point *start_point,Point *end_point,double &t
      time = (end_time_point-start_time_point).toSec();
      distance = result->G;
      std::list<Point*>*path = new std::list<Point*>();
-     ROS_INFO("log");
-     int i=0;
+     //ROS_INFO("log");
+     //int i=0;
       while(result){
-          std::cout<<"i:"<<(++i)<<endl;
-          if(i==6){
-            std::cout<<"test"<<result->parent->x<<endl;
-          }
-          ROS_INFO("running");
+        // std::cout<<"i:"<<(++i)<<endl;
+        //   if(i==6){
+        //     std::cout<<"test"<<result->parent->x<<endl;
+        //   }
+        //   ROS_INFO("running");
           path->push_back(result);
           
-          std::cout<<"wa"<<endl;
-          std::cout<<"test";
-          std::cout<<((result==NULL)?"result null":"result nonull")<<endl;
+        //   std::cout<<"wa"<<endl;
+        //   std::cout<<"test";
+        //   std::cout<<((result==NULL)?"result null":"result nonull")<<endl;
           result = result->parent;
            
       }
