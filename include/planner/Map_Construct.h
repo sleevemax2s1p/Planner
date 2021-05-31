@@ -51,9 +51,9 @@ Map_Construct::Map_Construct(vector<vector<vector<int>>> _map_data,ros::NodeHand
         for(int j=0;j<map_data[0].size();j++)
             for(int k=0;k<map_data[0][0].size();k++){
                 if(map_data[i][j][k]==1){
-                    pt.x = i;
-                    pt.y = j;
-                    pt.z = k;
+                    pt.x = i-10;
+                    pt.y = j-7;
+                    pt.z = k-7;
                     mk.points.push_back(pt);
                 }
             }
