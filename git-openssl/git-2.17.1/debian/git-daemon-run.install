@@ -1,2 +1,0 @@
-debian/git-daemon/run etc/sv/git-daemon
-debian/git-daemon/log/run etc/sv/git-daemon/log

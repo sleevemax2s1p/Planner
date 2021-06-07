@@ -1,6 +1,0 @@
-#!/bin/sh
-set -e
-
-#DEBHELPER#
-
-/usr/lib/emacsen-common/emacs-package-remove git

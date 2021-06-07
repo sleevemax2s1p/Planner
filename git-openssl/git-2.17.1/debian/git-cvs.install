@@ -1,3 +1,0 @@
-debian/tmp/usr/lib/git-core/git-cvs* usr/lib/git-core
-debian/tmp/usr/share/man/man1/git-cvs* usr/share/man/man1
-debian/tmp/usr/bin/git-cvsserver usr/bin
