@@ -4,16 +4,16 @@
 #include "planner/visualization.h"
 int main(int argc, char **argv)
 {
-    double *time = new double();
+     double *time = new double();
     int *distance = new int();
     ros::init(argc,argv,"plan_node");
     ros::NodeHandle nh;
-    nh.param("sx",sx,7);
-    nh.param("ex",ex,0);
-    nh.param("sy",sy,4);
-    nh.param("ey",ey,0);
-    nh.param("sz",sz,7);
-    nh.param("ez",ez,0);    
+    nh.param("sx",sx,21);
+    nh.param("ex",ex,2);
+    nh.param("sy",sy,13);
+    nh.param("ey",ey,4);
+    nh.param("sz",sz,2);
+    nh.param("ez",ez,5);    
     vector<vector<vector<int>>> map_data(21,vector<vector<int>>(15,vector<int>(14)));
     map_data[0] = {{1,0,0,0,0,0,0,0,0,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -246,13 +246,13 @@ int main(int argc, char **argv)
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                   {1,1,1,1,1,1,1,1,1,0,0,0,0,0},
+                   {1,1,1,1,1,1,1,1,1,0,0,0,0,0},
+                   {1,1,1,1,1,1,1,1,1,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                   {1,1,1,1,1,1,1,1,1,0,0,0,0,0},
+                   {1,1,1,1,1,1,1,1,1,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0}
                    };
     map_data[14] = {{1,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -323,17 +323,17 @@ int main(int argc, char **argv)
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                   {1,1,0,0,0,0,0,0,0,0,0,0,0,0},
+                   {1,1,0,0,0,0,0,0,0,0,0,0,0,0},
+                   {1,1,0,0,0,0,0,0,0,0,0,0,0,0},
+                   {1,1,0,0,0,0,0,0,0,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0}
+                   {1,1,1,1,1,1,0,0,0,0,0,0,0,0},
+                   {1,1,0,0,0,1,0,0,0,0,0,0,0,0},
+                   {1,1,0,0,0,1,0,0,0,0,0,0,0,0},
+                   {1,1,1,1,1,1,0,0,0,0,0,0,0,0}
                    };
     map_data[19] = {{1,0,0,0,0,0,0,0,0,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -362,8 +362,8 @@ int main(int argc, char **argv)
     Point* end_point = new Point(ex,ey,ez);
 
     
-    //std::list<Point*>* path = a.getPath(start_point,end_point,*time,*distance);
-    //std::cout<<"plan finished-----------------------"<<endl<<"time consume:"<<*time<<"s"<<"       path total distance:"<<*distance<<"m"<<endl;
+    std::list<Point*>* path = a.getPath(start_point,end_point,*time,*distance);
+    std::cout<<"plan finished-----------------------"<<endl<<"time consume:"<<*time<<"s"<<"       path total distance:"<<*distance<<"m"<<endl;
     //std::list<Point*> path;
 
     //v.draw_path(a.getPath(start_point,end_point));
@@ -371,7 +371,7 @@ int main(int argc, char **argv)
     double last_time = ros::Time().now().toSec();
     while(ros::ok()){
         map.build();
-        //v.draw_path(*path);
+        v.draw_path(*path);
         // now = ros::Time().now().toSec();
         
         //  while(now-last_time==2){

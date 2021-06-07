@@ -65,7 +65,6 @@ void Map_Construct::build(){
     _map_data_pub.publish(mk);
 }
 
-Map_Construct::~Map_Construct()
-{
+Map_Construct::~Map_Construct(){
 }
 #endif

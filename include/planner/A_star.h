@@ -51,12 +51,11 @@ int A_star::calcH(Point *start,Point *end){
     int deltaZ = start->z-end->z;
     return std::abs(deltaX)+std::abs(deltaY)+std::abs(deltaZ);
 }
-
 int A_star::calcF(Point *point){
     return point->G+point->H;
 }
 void A_star::InitAstar(vector<vector<vector<int>>> &_map){
-    vector<vector<vector<int>>> realmap(_map.size(),vector<vector<int>>(_map[0].size(),vector<int>(_map[0][0].size()*2-1)));
+    vector<vector<vector<int>>> realmap(_map.size(),vector<vector<int>>(_map[0].size(),vector<int>(_map[0][0].size())));
     for(int i=0;i<_map.size();i++)
         for(int j=0;j<_map[0].size();j++)
             for(int k=0;k<_map[0][0].size();k++){
