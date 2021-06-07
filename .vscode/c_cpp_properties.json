@@ -11,7 +11,8 @@
         
         "/home/helab/course/src/planner/include/**",
       
-        "/usr/include/**"
+        "/usr/include/**",
+        "/usr/local/include/**"
       ],
       "name": "ROS"
     }

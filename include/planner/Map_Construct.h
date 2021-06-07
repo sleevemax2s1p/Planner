@@ -8,6 +8,8 @@ using namespace std;
 
 int sx,sy,sz;
 int ex,ey,ez;
+// float sx,sy,sz;
+// float ex,ey,ez;
 class Map_Construct
 {
 private:
