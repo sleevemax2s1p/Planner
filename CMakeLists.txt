@@ -99,7 +99,7 @@ SET(CMAKE_BUILD_TYPE "Debug")
 SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g2 -ggdb")
 SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
 add_compile_options(-g)
-
+find_package(jps3d REQUIRED)
 ###################################
 ## catkin specific configuration ##
 ###################################
@@ -204,7 +204,7 @@ include_directories(
 #############
 
 add_executable(plan_node src/plan_node.cpp)
-target_link_libraries(plan_node ${catkin_LIBRARIES})
+target_link_libraries(plan_node ${catkin_LIBRARIES} ${JPS3D_LIBRARIES})
 ## Add gtest based cpp test target and link libraries
 # catkin_add_gtest(${PROJECT_NAME}-test test/test_planner.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
