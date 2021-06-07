@@ -1,0 +1,6 @@
+#!/usr/bin/dh-exec
+debian/git-el.emacsen-startup => etc/emacs/site-start.d/50git-core.el
+debian/git-el.emacsen-install => usr/lib/emacsen-common/packages/install/git
+debian/git-el.emacsen-remove => usr/lib/emacsen-common/packages/remove/git
+contrib/emacs/git-blame.el usr/share/git-core/emacs
+contrib/emacs/git.el usr/share/git-core/emacs

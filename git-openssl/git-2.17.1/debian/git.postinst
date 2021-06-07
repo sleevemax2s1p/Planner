@@ -1,0 +1,15 @@
+#!/bin/sh
+set -e
+
+#DEBHELPER#
+
+test "$1" = configure || exit 0
+
+removed_conffile=/etc/emacs/site-start.d/50git-core.el
+
+# Carry over modifications so git-el can use them.
+if dpkg --compare-versions "$2" lt '1:1.7.4.1-2~' &&
+   ! test -e "$removed_conffile" &&
+   test -r "$removed_conffile".dpkg-bak; then
+  mv "$removed_conffile".dpkg-bak "$removed_conffile"
+fi
