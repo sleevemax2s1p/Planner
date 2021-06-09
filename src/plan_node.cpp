@@ -1,19 +1,32 @@
 
-#include "planner/A_star.h"
+// #include "planner/A_star.h"
 #include "planner/Map_Construct.h"
 #include "planner/visualization.h"
+#include "planner/Dijkstra.h"
+
+#define RAND_DATA
+
+#ifdef RAND_DATA
+#include <fstream>
+#endif
+
+const char file_name[]="/home/lym/code/course/src/Planner/src/test1.txt";
+
+
+
 int main(int argc, char **argv)
 {
     double *time = new double();
     int *distance = new int();
+#ifndef RAND_DATA
     ros::init(argc,argv,"plan_node");
     ros::NodeHandle nh;
-    nh.param("sx",sx,7);
-    nh.param("ex",ex,0);
-    nh.param("sy",sy,4);
-    nh.param("ey",ey,0);
-    nh.param("sz",sz,7);
-    nh.param("ez",ez,0);    
+    nh.param("sx",sx,20);
+    nh.param("ex",ex,2);
+    nh.param("sy",sy,13);
+    nh.param("ey",ey,4);
+    nh.param("sz",sz,2);
+    nh.param("ez",ez,5);    
     vector<vector<vector<int>>> map_data(21,vector<vector<int>>(15,vector<int>(14)));
     map_data[0] = {{1,0,0,0,0,0,0,0,0,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -246,13 +259,13 @@ int main(int argc, char **argv)
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                   {1,1,1,1,1,1,1,1,1,0,0,0,0,0},
+                   {1,1,1,1,1,1,1,1,1,0,0,0,0,0},
+                   {1,1,1,1,1,1,1,1,1,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                   {1,1,1,1,1,1,1,1,1,0,0,0,0,0},
+                   {1,1,1,1,1,1,1,1,1,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0}
                    };
     map_data[14] = {{1,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -323,17 +336,17 @@ int main(int argc, char **argv)
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                   {1,1,0,0,0,0,0,0,0,0,0,0,0,0},
+                   {1,1,0,0,0,0,0,0,0,0,0,0,0,0},
+                   {1,1,0,0,0,0,0,0,0,0,0,0,0,0},
+                   {1,1,0,0,0,0,0,0,0,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0}
+                   {1,1,1,1,1,1,0,0,0,0,0,0,0,0},
+                   {1,1,0,0,0,1,0,0,0,0,0,0,0,0},
+                   {1,1,0,0,0,1,0,0,0,0,0,0,0,0},
+                   {1,1,1,1,1,1,0,0,0,0,0,0,0,0}
                    };
     map_data[19] = {{1,0,0,0,0,0,0,0,0,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -351,13 +364,48 @@ int main(int argc, char **argv)
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0}
                    };
+#else
+    // freopen(file_name, "r", stdin);
+    ifstream infile(file_name);
+    int T;
+    infile>>T;
+    int X,Y,Z;
+    int spx, spy, spz, epx, epy, epz;
+    infile>>X>>Y>>Z;
+    infile>>spx>>spy>>spz>>epx>>epy>>epz;
+    cout<<"X Y Z  "<<X<<"\t"<<Y<<"\t"<<Z<<endl;
+    cout<<spx<<"\t"<<spy<<"\t"<<spz<<endl;
+    cout<<epx<<"\t"<<epy<<"\t"<<epz<<endl;
+    
+    vector<vector<vector<int>>> map_data(X,vector<vector<int>>(Y,vector<int>(Z)));
+    for(int i=0;i<X;++i)
+    {
+        for(int j=0;j<Y;++j)
+        {
+            for(int k=0;k<Z;++k)
+            {
+                infile>>map_data[i][j][k];
+            }
+        }
+    }
+    ros::init(argc,argv,"plan_node");
+    ros::NodeHandle nh;
+    nh.param("sx",sx,spx);
+    nh.param("ex",ex,epx);
+    nh.param("sy",sy,spy);
+    nh.param("ey",ey,epy);
+    nh.param("sz",sz,spz);
+    nh.param("ez",ez,epz);
+#endif
     ROS_INFO("start");      
     ros::Rate(100);   
     Map_Construct map(map_data,nh);
     Visualization v(nh);
     v.Init(); 
-    A_star a;
-    a.InitAstar(map_data);
+    // A_star a;
+    // a.InitAstar(map_data);
+    Dijkstra djs;
+    djs.InitDijkstra_raw(map_data);
     Point* start_point= new Point(sx,sy,sz);
     Point* end_point = new Point(ex,ey,ez);
 
@@ -365,7 +413,16 @@ int main(int argc, char **argv)
     //std::list<Point*>* path = a.getPath(start_point,end_point,*time,*distance);
     //std::cout<<"plan finished-----------------------"<<endl<<"time consume:"<<*time<<"s"<<"       path total distance:"<<*distance<<"m"<<endl;
     //std::list<Point*> path;
-
+    djs.FindPath_raw(*start_point, *end_point);
+    list<Point*> *path = djs.getPath(start_point, end_point, *time, *distance);
+    ROS_INFO("DJS Finish");
+    if(path!=nullptr)
+    {
+        ROS_INFO("Start draw path");
+        v.draw_path(*path);
+    }
+    else
+        ROS_ERROR("Path Error");
     //v.draw_path(a.getPath(start_point,end_point));
     double now = ros::Time().now().toSec();
     double last_time = ros::Time().now().toSec();

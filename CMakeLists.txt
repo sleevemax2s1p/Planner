@@ -203,7 +203,8 @@ include_directories(
 ## Testing ##
 #############
 
-add_executable(plan_node src/plan_node.cpp)
+add_executable(plan_node src/plan_node.cpp src/Dijkstra.cpp)
+# add_executable(Dijkstra src/Dijkstra.cpp)
 target_link_libraries(plan_node ${catkin_LIBRARIES})
 ## Add gtest based cpp test target and link libraries
 # catkin_add_gtest(${PROJECT_NAME}-test test/test_planner.cpp)

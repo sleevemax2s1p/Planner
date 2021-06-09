@@ -44,9 +44,9 @@ void Visualization::draw_path(std::list<Point*>path){
 
     geometry_msgs::Point pt;
     for(auto p:path){
-        pt.x = p->x;
-        pt.y = p->y;
-        pt.z = p->z;
+        pt.x = p->x-10;
+        pt.y = p->y-7;
+        pt.z = p->z-7;
 
         line.points.push_back(pt);
     }

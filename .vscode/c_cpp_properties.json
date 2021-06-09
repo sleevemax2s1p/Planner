@@ -9,7 +9,7 @@
       
         "/opt/ros/melodic/include/**",
         
-        "/home/helab/course/src/planner/include/**",
+        "/home/lym/code/course/src/planner/include/**",
       
         "/usr/include/**"
       ],
