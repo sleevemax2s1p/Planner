@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC  -std=c++11 -Wall -Wno-deprecated-declarations -O2 -g -DNDEBUG  -shared -Wl,-soname,libjps_lib.so -o libjps_lib.so CMakeFiles/jps_lib.dir/src/jps_planner/graph_search.cpp.o CMakeFiles/jps_lib.dir/src/jps_planner/jps_planner.cpp.o 

@@ -45,9 +45,9 @@ Map_Construct::Map_Construct(vector<vector<vector<int>>> _map_data,ros::NodeHand
     mk.color.b = 0.0;
     mk.color.a = 1.0;
 
-    mk.scale.x=1;
-    mk.scale.y=1;
-    mk.scale.z=1;
+    mk.scale.x=0.8;
+    mk.scale.y=0.8;
+    mk.scale.z=0.8;
     geometry_msgs::Point pt;
     for(int i=0;i<map_data.size();i++)
         for(int j=0;j<map_data[0].size();j++)

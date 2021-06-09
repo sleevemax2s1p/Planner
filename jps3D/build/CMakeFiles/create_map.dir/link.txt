@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++11 -Wall -Wno-deprecated-declarations -O2 -g -DNDEBUG  -rdynamic CMakeFiles/create_map.dir/test/create_map.cpp.o  -o create_map -lyaml-cpp 
