@@ -1,0 +1,1 @@
+/usr/bin/c++   -O0 -Wall -g2 -ggdb  -rdynamic CMakeFiles/Dijkstra.dir/src/Dijkstra.cpp.o  -o /home/lym/code/course/devel/lib/planner/Dijkstra 

@@ -1,0 +1,8 @@
+prefix=/home/lym/code/course/devel
+
+Name: planner
+Description: Description of planner
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
