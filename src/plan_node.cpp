@@ -10,7 +10,7 @@
 #include <fstream>
 #endif
 
-const char file_name[]="/home/lym/code/course/src/Planner/src/test1.txt";
+const char file_name[]="/home/lym/code/course/src/Planner/src/test2.txt";
 
 
 
