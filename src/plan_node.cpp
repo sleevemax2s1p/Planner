@@ -8,12 +8,13 @@ int main(int argc, char **argv)
     int *distance = new int();
     ros::init(argc,argv,"plan_node");
     ros::NodeHandle nh;
-    nh.param("sx",sx,21);
+    nh.param("sx",sx,20);
     nh.param("ex",ex,2);
     nh.param("sy",sy,13);
     nh.param("ey",ey,4);
     nh.param("sz",sz,2);
     nh.param("ez",ez,5);    
+    
     vector<vector<vector<int>>> map_data(21,vector<vector<int>>(15,vector<int>(14)));
     map_data[0] = {{1,0,0,0,0,0,0,0,0,0,0,0,0,0},
                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0},
