@@ -3,7 +3,7 @@
 #include <queue>
 #include <ctime>
 
-const int num_data = 1;
+const int num_data = 10;
 const int X = 32;
 const int Y = 24;
 const int Z = 24;
@@ -92,9 +92,10 @@ int main()
 {
     freopen(file_name, "w", stdout);
     cout << num_data << endl;
+     srand(time(0));
     for (int T = 0; T < num_data; ++T)
     {
-        srand(time(0));
+       
         qnode start_point(0, Y/2, Z/2), end_point(X - 1, Y/2 +1, Z/2 + 1);
         cout << X << " " << Y << " " << Z << endl;
         cout << start_point.x << " " << start_point.y << " " << start_point.z << " ";
