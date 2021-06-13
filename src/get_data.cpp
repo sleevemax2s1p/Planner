@@ -2,19 +2,21 @@
 #include <vector>
 #include <queue>
 #include <ctime>
+#include <fstream>
 
-const int num_data = 1;
-const int X = 32;
-const int Y = 24;
-const int Z = 24;
+const int num_data = 10;        //the number of cases
+const int X = 60;               //the X size of map
+const int Y = 10;   //30;       //the Y size of map
+const int Z = 10;   //30;       //the Z size of map
 const int x_obs_max = 3;
 const int x_obs_min = 1;
-const int y_obs_max = 8;
-const int y_obs_min = 2;
-const int z_obs_max = 7;
-const int z_obs_min = 2;
-const char file_name[] = "test2.txt";
-const double rate = 12; //0~100
+const int y_obs_max = 5;//9;
+const int y_obs_min = 2;//2;
+const int z_obs_max = 5;//9;
+const int z_obs_min = 2;//2;    
+const double rate = 10;     //the rate of obstacle 0~100
+// const char file_name[] = "Datasets_with_ten_data.txt";  // the file name of map
+const char file_name[] = "smalldatasetfordjs.txt";  // the file name of map
 
 //  output format:
 //  first line: the number of case
@@ -85,29 +87,30 @@ int get_rand(int mi, int mx)
     {
         return mi;
     }
-    return rand()<mx? mi : mi + rand() % (mx - mi);
+    return rand() < mx ? mi : mi + rand() % (mx - mi);
 }
 
 int main()
 {
-    freopen(file_name, "w", stdout);
-    cout << num_data << endl;
+    // freopen(file_name, "w", stdout);
+    ofstream fout(file_name);
+    srand(time(0));
+    fout << num_data << endl;
     for (int T = 0; T < num_data; ++T)
     {
-        srand(time(0));
-        qnode start_point(0, Y/2, Z/2), end_point(X - 1, Y/2 +1, Z/2 + 1);
-        cout << X << " " << Y << " " << Z << endl;
-        cout << start_point.x << " " << start_point.y << " " << start_point.z << " ";
-        cout << end_point.x << " " << end_point.y << " " << end_point.z << endl;
+        qnode start_point(0, Y / 2, Z / 2), end_point(X - 1, Y / 2 + 1, Z / 2 + 1);
+        fout << X << " " << Y << " " << Z << endl;
+        fout << start_point.x << " " << start_point.y << " " << start_point.z << " ";
+        fout << end_point.x << " " << end_point.y << " " << end_point.z << endl;
         vector<vector<vector<int>>> _map(X, vector<vector<int>>(Y, vector<int>(Z, 0)));
         do
         {
             /* code */
-            for (auto i = 0; i < X; i += x_obs_min)
+            for (auto i = 0; i < X; i += get_rand(x_obs_min, x_obs_max))
             {
-                for (auto j = 0; j < Y; j += y_obs_min)
+                for (auto j = 0; j < Y; j += get_rand(y_obs_min, y_obs_max))
                 {
-                    for (auto k = 0; k < Z; k += z_obs_min)
+                    for (auto k = 0; k < Z; k += get_rand(z_obs_min, z_obs_max))
                     {
                         if (get_rand())
                         {
@@ -141,12 +144,14 @@ int main()
             {
                 for (auto k = 0; k < _map[i][j].size(); ++k)
                 {
-                    cout << _map[i][j][k] << " ";
+                    fout << _map[i][j][k] << " ";
                 }
-                cout << endl;
+                fout << endl;
             }
-            cout << endl;
+            fout << endl;
         }
+        cout << "Number " << T + 1 << " case finish!!! " << endl;
     }
+    cout << "Success" << endl;
     return 0;
 }

@@ -234,14 +234,14 @@ bool Dijkstra::FindPath_raw(const Point &start_point, const Point &end_point)
         while (pre[temp] != -1)
         {
             Point *p = new Point(pt.x, pt.y, pt.z);
-            cout << "x y z = " << pt.x << "\t" << pt.y << '\t' << pt.z << endl;
+            // cout << "x y z = " << pt.x << "\t" << pt.y << '\t' << pt.z << endl;
             temp = pre[temp];
             node_to_Point(pt, temp);
             p->parent = &pt;
             path_one.push_back(p);
         }
         Point *p = new Point(pt.x, pt.y, pt.z);
-        cout << "x y z = " << pt.x << "\t" << pt.y << '\t' << pt.z << endl;
+        // cout << "x y z = " << pt.x << "\t" << pt.y << '\t' << pt.z << endl;
         p->parent = nullptr;
         path_one.push_back(p);
         ROS_INFO("Dijkstra success!");
