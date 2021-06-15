@@ -3,7 +3,7 @@
 ## Author
 > * **@lymnxn(楼一旻)**
 > * **@Ryan1997-tongji(陈哲炜)** 
-> * **@lijie1998 李杰**
+> * **@lijie1998 (李杰)**
 > * **@sleevemax2s1p(刘临池)**   
 # How to start
 快速启动
