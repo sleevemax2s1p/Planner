@@ -1,0 +1,10 @@
+<launch>
+        <node pkg="planner" type = "plan_test" name="plan_test" output="screen">
+            <param name="sx" value="8" type="int"/>
+            <param name="sy" value="0" type="int"/>
+            <param name="sz" value="0" type="int"/>
+            <param name="ex" value="1" type="int"/>
+            <param name="ey" value="1" type="int"/>
+            <param name="ez" value="1" type="int"/>
+        </node>
+</launch>

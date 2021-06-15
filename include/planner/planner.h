@@ -9,9 +9,9 @@ using namespace std;
 struct Point{
     int x,y,z;
     int F,G,H;
-    
+    double distance;
     Point* parent;
-    Point(int _x,int _y,int _z):x(_x),y(_y),z(_z),F(0),G(0),H(0),parent(NULL){};
+    Point(int _x,int _y,int _z):x(_x),y(_y),z(_z),distance(0),F(0),G(0),H(0),parent(NULL){};
     
 };
  class Abstract_planner{

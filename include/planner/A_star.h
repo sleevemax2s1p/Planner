@@ -73,8 +73,7 @@ Point* A_star::FindPath(Point &start_point,Point &end_point){
     int i=0;
     
      while(!openlist.empty()){
-        std::cout<<"i: "<<(++i)<<endl;
-        std::cout<<"size:" <<openlist.size()<<endl;
+        
         
         // if(i>50)break;
         auto curPoint = getLeastFpoint();

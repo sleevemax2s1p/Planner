@@ -3,19 +3,19 @@
 #include <queue>
 #include <ctime>
 #include <fstream>
- int num_data = 1000;        //the number of cases
- int X = 100;               //the X size of map
- int Y = 30;   //30;       //the Y size of map
- int Z = 50;   //30;       //the Z size of map
- int x_obs_max = 3;
- int x_obs_min = 1;
- int y_obs_max = 9;//9;
- int y_obs_min = 2;//2;
- int z_obs_max = 9;//9;
- int z_obs_min = 2;//2;    
- double rate = 10;     //the rate of obstacle 0~100
+int num_data = 100; //the number of cases
+int X = 200;         //the X size of map
+int Y = 80;          //30;       //the Y size of map
+int Z = 80;          //30;       //the Z size of map
+int x_obs_max = 3;
+int x_obs_min = 1;
+int y_obs_max = 20; //9;
+int y_obs_min = 2; //2;
+int z_obs_max = 20; //9;
+int z_obs_min = 2; //2;
+double rate = 5;  //the rate of obstacle 0~100
 // const char file_name[] = "Datasets_with_ten_data.txt";  // the file name of map
-char file_name[] = "../map_dataset/test_data_set.txt";  // the file name of map
+char file_name[] = "../map_dataset/test_data_set.txt"; // the file name of map
 
 //  output format:
 //  first line: the number of case
@@ -44,6 +44,10 @@ bool bfs(const vector<vector<vector<int>>> &_m, const qnode &start_point, const 
 {
     vector<vector<vector<int>>> vis(_m.size(), vector<vector<int>>(_m[0].size(), vector<int>(_m[0][0].size(), 0)));
     queue<qnode> q;
+    while (!q.empty())
+    {
+        q.pop();
+    }
     q.push(start_point);
     vis[start_point.x][start_point.y][start_point.z] = 1;
     while (!q.empty())
@@ -73,6 +77,8 @@ bool bfs(const vector<vector<vector<int>>> &_m, const qnode &start_point, const 
             }
         }
     }
+    cout << " BFS ERROR " << endl;
+    // cout << get_rand() << endl;
     return false;
 }
 
@@ -89,10 +95,11 @@ int get_rand(int mi, int mx)
     return rand() < mx ? mi : mi + rand() % (mx - mi);
 }
 
-int main(int argc,char** argv)
+int main(int argc, char **argv)
 {
     // freopen(file_name, "w", stdout);
-    ofstream fout(argv[1]);
+     ofstream fout(argv[1]);
+    //ofstream fout(file_name);
     srand(time(0));
     fout << num_data << endl;
     for (int T = 0; T < num_data; ++T)
@@ -105,6 +112,16 @@ int main(int argc,char** argv)
         do
         {
             /* code */
+            for (auto i = 0; i < X; ++i)
+            {
+                for (auto j = 0; j < Y; ++j)
+                {
+                    for (auto k = 0; k < Z; ++k)
+                    {
+                        _map[i][j][k] = 0;
+                    }
+                }
+            }
             for (auto i = 0; i < X; i += get_rand(x_obs_min, x_obs_max))
             {
                 for (auto j = 0; j < Y; j += get_rand(y_obs_min, y_obs_max))

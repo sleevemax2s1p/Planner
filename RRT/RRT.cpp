@@ -1,5 +1,5 @@
 ﻿#include "planner/RRT.h"
-#include<ros/ros.h>
+#include<ctime>
 
 // node构造函数，初始化x,y,parent,cost
 node::node(int _x, int _y, int _z) : x(_x), y(_y),z(_z), parent(nullptr), cost(0) {}
@@ -7,11 +7,11 @@ node::node(int _x, int _y, int _z) : x(_x), y(_y),z(_z), parent(nullptr), cost(0
 int node::getX() { return x; }
 int node::getY() { return y; }
 int node::getZ() { return z; }
-void node::setcost(float _cost)
+void node::setcost(double _cost)
 {
 	cost = _cost;
 }
-float node::getcost() { return cost; }
+double node::getcost() { return cost; }
 
 void node::setParent(node* _parent) { parent = _parent; }
 node* node::getParent() { return parent; }
@@ -159,16 +159,14 @@ clock_t startTime, endTime;
 
  list<Point*>* RRT::getPath(Point* start_point, Point* end_point, double& time, double& distance)
 {
-
+    startTime = clock();
 	node *startNode = new node(start_point->x, start_point->y, start_point->z);
 	node *goalNode = new node(end_point->x, end_point->y, end_point->z);
 
 	vector<node*> pathresult;
-    ros::Time now = ros::Time::now();
 	pathresult= planning();
-    ros::Time last_time = ros::Time::now();
 	list<Point*>* path = new list<Point*>();
-    float cost = 0;
+    double cost = 0;
 	for (vector<node*>::size_type i = 0; i < pathresult.size(); i++)
 	{
         Point* point = new Point(0, 0, 0);
@@ -176,15 +174,15 @@ clock_t startTime, endTime;
 		point->y = pathresult[i]->getY();
 		point->z = pathresult[i]->getZ();
         cost += pathresult[i]->getcost();
-        point->G = cost;
+        point->distance = cost;
 		path->push_back(point);
         if (i == pathresult.size() - 1)
         {
-            distance = point->G;
+            distance = point->distance;
         }
 	}
-
-    time = (last_time-now).toSec();
+    endTime = clock();
+    time = (double)(endTime - startTime) / CLOCKS_PER_SEC;
 	return path;
 	
 }

@@ -3,7 +3,7 @@
 ## Author
 > * **@lymnxn(楼一旻)**
 > * **@Ryan1997-tongji(陈哲炜)** 
-> * **@李杰**
+> * **@lijie1998 李杰**
 > * **@sleevemax2s1p(刘临池)**   
 # How to start
 快速启动
@@ -65,7 +65,23 @@ virtual std::list<Point*>* getPath(Point *start_point,Point *end_point,double &t
 void Visualization::Init()
 void Visualization::draw_path(std::list<Point*>path)
 ``` 
-#地图生产脚本
+# 大量数据测试
+### 测试脚本
 ```
 ./map_dataset/map_generate.sh ${file_name}
 ```
+<p align="center">
+  <img src="pics/dataSet_generate.png" width = "400" height = "225"/>
+ 
+</p>
+
+需要在test.cpp中修改测试数据集的来源
+### 测试程序启动
+
+```
+roslaunch planner test.launch
+```
+<p align="center">
+  <img src="pics/dataSet_test.png" width = "400" height = "225"/>
+
+</p>

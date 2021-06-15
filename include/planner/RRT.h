@@ -9,24 +9,23 @@
 #include <typeinfo>
 #include <time.h>
 #include "planner.h"
-#include <list>
 
 using namespace std;
 
 
 class node {
 private:
-    int x, y, z;                // ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½
-    vector<float> pathX, pathY;// Â·ï¿½ï¿½
-    node* parent;              // ï¿½ï¿½ï¿½Úµï¿½
-    float cost;
+    int x, y, z;                // ½Úµã×ø±ê
+    vector<float> pathX, pathY;// Â·¾¶
+    node* parent;              // ¸¸½Úµã
+    double cost;
 public:
     node(int _x, int _y, int _z);
     int getX();
     int getY();
     int getZ();
-	void setcost(float);
-	float getcost();
+	void setcost(double);
+	double getcost();
     void setParent(node*);
     node* getParent();
 };
@@ -34,17 +33,17 @@ public:
 class RRT :public Abstract_planner
 {
 private:
-    node* startNode, * goalNode;          // ï¿½ï¿½Ê¼ï¿½Úµï¿½ï¿½Ä¿ï¿½ï¿½Úµï¿½
-    vector< vector< vector<int> > > obstacleList; // ï¿½Ï°ï¿½ï¿½ï¿½
+    node* startNode, * goalNode;          // ÆðÊ¼½ÚµãºÍÄ¿±ê½Úµã
+    vector< vector< vector<int> > > obstacleList; // ÕÏ°­Îï
     vector<node*> nodeList;               // 
-    int stepSize;                       // ï¿½ï¿½ï¿½ï¿½
+    int stepSize;                       // ²½³¤
     int goal_sample_rate;
 
-    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ð·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¹Ì¶ï¿½ï¿½ï¿½ï¿½ã·¨ï¿½ï¿½Ö»ï¿½Ðµï¿½ï¿½ï¿½ï¿½Ó²ï¿½Í¬Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Ð²Å²ï¿½Í¬ï¿½ï¿½
-    // ï¿½ï¿½ï¿½Ô²ï¿½Ó¦ï¿½Ã°ï¿½ï¿½ï¿½ï¿½Ó¹Ì¶ï¿½ï¿½Ú³ï¿½ï¿½ï¿½ï¿½Ð£ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ê±ï¿½ï¿½È¡ï¿½
-    random_device goal_rd;                // random_deviceï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½
-    mt19937 goal_gen;                     // mt19937ï¿½ï¿½Ò»ï¿½Ö¸ï¿½Ð§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã·¨
-    uniform_int_distribution<int> goal_dis;  //ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã·¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    // Ëæ»úº¯Êý²úÉúµÄÊÇÒ»ÖÖÎ±Ëæ»úÊý£¬ËüÊµ¼ÊÊÇÒ»ÖÖÐòÁÐ·¢ÉúÆ÷£¬ÓÐ¹Ì¶¨µÄËã·¨£¬Ö»ÓÐµ±ÖÖ×Ó²»Í¬Ê±£¬ÐòÁÐ²Å²»Í¬£¬
+    // ËùÒÔ²»Ó¦¸Ã°ÑÖÖ×Ó¹Ì¶¨ÔÚ³ÌÐòÖÐ£¬Ó¦¸ÃÓÃËæ»ú²úÉúµÄÊý×öÖÖ×Ó£¬Èç³ÌÐòÔËÐÐÊ±µÄÊ±¼äµÈ¡£
+    random_device goal_rd;                // random_device¿ÉÒÔÉú³ÉÓÃÀ´×÷ÎªÖÖ×ÓµÄËæ»úµÄÎÞ·ûºÅÕûÊýÖµ¡£
+    mt19937 goal_gen;                     // mt19937ÊÇÒ»ÖÖ¸ßÐ§µÄËæ»úÊýÉú³ÉËã·¨
+    uniform_int_distribution<int> goal_dis;  //Ëæ»úÊýÔ´£¬Ëæ»úÊýÔ´µ÷ÓÃËæ»úÊýËã·¨À´Éú³ÉËæ»úÊý
 
     random_device area_rd1;
     mt19937 area_gen1;
