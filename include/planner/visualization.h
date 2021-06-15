@@ -7,17 +7,22 @@
 #include "planner.h"
 class Visualization{
     public:
-        ros::Publisher path_pub;
+        ros::Publisher A_star_path_pub;
+        ros::Publisher Jps_path_pub;
+        ros::Publisher RRT_path_pub;
+        ros::Publisher Dijkstra_path_pub;
         ros::NodeHandle &nh;
         void Init();
-        void draw_path(std::list<Point*>path);
+        void draw_path(std::list<Point*>path,double r,double g,double b,int type);
         Visualization(ros::NodeHandle &_nh):nh(_nh){};
 };
 void Visualization::Init(){
-    path_pub = nh.advertise<visualization_msgs::Marker>("map/path",10);
-    
+    A_star_path_pub = nh.advertise<visualization_msgs::Marker>("map/A_star_path",10);
+    Jps_path_pub = nh.advertise<visualization_msgs::Marker>("map/Jps_path",10);
+    RRT_path_pub = nh.advertise<visualization_msgs::Marker>("map/RRT_path",10);
+    Dijkstra_path_pub = nh.advertise<visualization_msgs::Marker>("map/Dijkstra_path",10);
 }
-void Visualization::draw_path(std::list<Point*>path){
+void Visualization::draw_path(std::list<Point*>path,double r,double g,double b,int type){
     visualization_msgs::Marker mk;
     visualization_msgs::Marker line;
     mk.header.frame_id = line.header.frame_id = "world";
@@ -29,7 +34,9 @@ void Visualization::draw_path(std::list<Point*>path){
     mk.type = visualization_msgs::Marker::POINTS;
     line.type = visualization_msgs::Marker::LINE_STRIP;
 
-    line.color.b = 1.0;
+    line.color.r = r;
+    line.color.g = g;
+    line.color.b = b;
     line.color.a = 1.0;
     line.scale.x = line.scale.y = line.scale.z = 0.05;
 
@@ -50,7 +57,23 @@ void Visualization::draw_path(std::list<Point*>path){
         line.points.push_back(pt);
     }
     if(ros::ok()){
-        path_pub.publish(line);
+        switch (type)
+        {
+            
+        case 1:
+            Jps_path_pub.publish(line);
+            break;
+        case 2:
+            RRT_path_pub.publish(line);
+            break;
+        case 3:
+            Dijkstra_path_pub.publish(line);
+            break;
+        default:
+             A_star_path_pub.publish(line);
+            break;
+        }
+        
         //ROS_INFO("path has been generated");
     }
 

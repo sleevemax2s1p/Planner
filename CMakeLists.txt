@@ -115,7 +115,7 @@ catkin_package(
   #CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy std_msgs visualization_msgs
 #  DEPENDS system_lib
 )
-
+find_package(Eigen3)
 ###########
 ## Build ##
 ###########
@@ -203,8 +203,8 @@ include_directories(
 ## Testing ##
 #############
 
-add_executable(plan_node src/plan_node.cpp)
-target_link_libraries(plan_node ${catkin_LIBRARIES})
+add_executable(plan_node src/plan_node.cpp jps_planner/jps_planner.cpp jps_planner/graph_search.cpp RRT/RRT.cpp Dijkstra/Dijkstra.cpp)
+target_link_libraries(plan_node ${catkin_LIBRARIES} Eigen3::Eigen)
 ## Add gtest based cpp test target and link libraries
 # catkin_add_gtest(${PROJECT_NAME}-test test/test_planner.cpp)
 # if(TARGET ${PROJECT_NAME}-test)

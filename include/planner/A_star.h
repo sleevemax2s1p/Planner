@@ -1,6 +1,7 @@
 #ifndef _A_STAR_
 #define _A_STAR_
 #include <ros/ros.h>
+
 #include "planner.h"
 #include <list>
 using namespace std;
@@ -9,7 +10,7 @@ class A_star:public Abstract_planner{
         void InitAstar(vector<vector<vector<int>>> &_map);
         
         
-        std::list<Point*>* getPath(Point *start_point,Point *end_point,double& time,int &distance);
+        std::list<Point*>* getPath(Point *start_point,Point *end_point,double& time,double &distance);
         std::vector<Point*>getSurroundPoints(const Point *point)const;
         Point* FindPath(Point &start_point,Point &end_point);
         bool isCanreach(const Point* point,const Point* target)const;
@@ -122,17 +123,23 @@ bool A_star::isCanreach(const Point* point,const Point* target)const{
         return false;
     else return true;
 }
-std::list<Point*>* A_star::getPath(Point *start_point,Point *end_point,double &time,int &distance){
+std::list<Point*>* A_star::getPath(Point *start_point,Point *end_point,double &time,double &distance){
      std::cout<<"ready to findPoint";
      ros::Time start_time_point = ros::Time::now();
      Point* result = FindPath(*start_point,*end_point);
      ros::Time end_time_point = ros::Time::now();
      time = (end_time_point-start_time_point).toSec();
-     distance = result->G;
+     distance =0;
      std::list<Point*>*path = new std::list<Point*>();
      //ROS_INFO("log");
      //int i=0;
       while(result){
+          if(result->parent!=nullptr){
+              double del_x = result->x-result->parent->x;
+              double del_y = result->y-result->parent->y;
+              double del_z = result->z-result->parent->z;
+              distance+=sqrt(del_x*del_x+del_y*del_y+del_z*del_z);
+          }
         // std::cout<<"i:"<<(++i)<<endl;
         //   if(i==6){
         //     std::cout<<"test"<<result->parent->x<<endl;
@@ -144,7 +151,7 @@ std::list<Point*>* A_star::getPath(Point *start_point,Point *end_point,double &t
         //   std::cout<<"test";
         //   std::cout<<((result==NULL)?"result null":"result nonull")<<endl;
           result = result->parent;
-           
+            
       }
     openlist.clear();
     closelist.clear();

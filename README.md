@@ -20,6 +20,13 @@ ROS启动文件
 ```
 roslaunch planner planner.launch
 ``` 
+# 效果图
+
+<p align="center">
+  <img src="pics/planner.png" width = "400" height = "225"/>
+  <img src="pics/planner_withinfo.png" width = "400" height = "225"/>
+</p>
+
 # 协作实现
 见文件头 **include/planner/planner.h** 
 ## 1. 像素点Point
@@ -58,3 +65,7 @@ virtual std::list<Point*>* getPath(Point *start_point,Point *end_point,double &t
 void Visualization::Init()
 void Visualization::draw_path(std::list<Point*>path)
 ``` 
+#地图生产脚本
+```
+./map_dataset/map_generate.sh ${file_name}
+```
