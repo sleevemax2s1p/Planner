@@ -408,15 +408,15 @@ int main(int argc, char **argv)
     std::cout<<"RRT: plan finished-----------------------"<<endl<<"time consume:"<<*RRT_time<<"s"<<"       path total distance:"<<*RRT_distance<<"m"<<endl;
     //RRT
 
-    //Dijkstra
+    //Dijkstra     在此修改****
     Dijkstra djs;
-    djs.InitDijkstra_raw(map_data);
+    djs.InitDijkstra_opt3(map_data);
     //std::list<Point*>* path = a.getPath(start_point,end_point,*time,*distance);
     //std::list<Point*> path;
     ros::Time now = ros::Time::now();
-    djs.FindPath_raw(*start_point, *end_point);
+    djs.FindPath_opt3(*start_point, *end_point);
     *Dijkstra_time = (ros::Time::now()-now).toSec();
-    list<Point *> *Dijkstra_path = djs.getPath(start_point, end_point, *Dijkstra_time, *Dijkstra_distance);
+    list<Point *> *Dijkstra_path = djs.getPath_opt3(start_point, end_point, *Dijkstra_time, *Dijkstra_distance);
     std::cout<<"Dijkstra: plan finished-----------------------"<<endl<<"time consume:"<<*Dijkstra_time<<"s"<<"       path total distance:"<<*Dijkstra_distance<<"m"<<endl;
     //Dijkstra
     while(ros::ok()){

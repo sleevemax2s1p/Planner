@@ -7,7 +7,6 @@
 #include "planner/RRT.h"
 #include <fstream>
 
-
 const char file_name[] = "/home/helab/course/src/planner/map_dataset/dataset.txt";
 
 int main(int argc, char **argv)
@@ -20,24 +19,32 @@ int main(int argc, char **argv)
 
     double *RRT_time = new double();
     double *RRT_distance = new double();
+
+    double *Dijkstra_time = new double();
+    double *Dijkstra_distance = new double();
+
     ifstream infile(file_name);
     int T, cases;
     double sum = 0;
     infile >> T;
     cases = T;
     int i = 0;
-    
+
     while (T--)
     {
-        std::cout<<(i++)<<"-----------------------"<<endl;
+        std::cout << (i++) << "-----------------------" << endl;
         double *Astar_time1 = new double();
-         double *Astar_distance1 = new double();
+        double *Astar_distance1 = new double();
 
         double *Jps_time1 = new double();
         double *Jps_distance1 = new double();
 
-         double *RRT_time1= new double();
+        double *RRT_time1 = new double();
         double *RRT_distance1 = new double();
+
+        double *Dijkstra_time1 = new double();
+        double *Dijkstra_distance1 = new double();
+
         int X, Y, Z;
         int spx, spy, spz, epx, epy, epz;
         infile >> X >> Y >> Z;
@@ -70,62 +77,86 @@ int main(int argc, char **argv)
         Map_Construct map(map_data, nh);
         Visualization v(nh);
         v.Init();
-         Point* start_point= new Point(sx,sy,sz);
-    Point* end_point = new Point(ex,ey,ez);
+        Point *start_point = new Point(sx, sy, sz);
+        Point *end_point = new Point(ex, ey, ez);
 
-    node* startpoint = new node(sx,sy,sz);
-	node *endpoint =new node(ex,ey,ez);
+        node *startpoint = new node(sx, sy, sz);
+        node *endpoint = new node(ex, ey, ez);
 
-    //     A star
-    A_star a;
-    a.InitAstar(map_data);
+        //     A star
+        A_star a;
+        a.InitAstar(map_data);
 
-    std::list<Point*>* A_star_path = a.getPath(start_point,end_point,*Astar_time1,*Astar_distance1);
-    *Astar_time+=*Astar_time1;
-    std::cout<<1<<endl;
-    //
-    // JPS
-    Jps jps;
-    int x = map_data.size();
-    int y = map_data[0].size();
-    int z = map_data[0][0].size();
+        std::list<Point *> *A_star_path = a.getPath(start_point, end_point, *Astar_time1, *Astar_distance1);
+        *Astar_time += *Astar_time1;
+        std::cout << 1 << endl;
+        //
+        // JPS
+        Jps jps;
+        int x = map_data.size();
+        int y = map_data[0].size();
+        int z = map_data[0][0].size();
 
-    vector<signed char> realmap(x * y * z);
-    realmap = jps.InitJps(map_data);
-    jps.map = &realmap;
-    std::list<Point *> *Jps_path = jps.getPath(start_point, end_point, *Jps_time1, *Jps_distance1);
-    *Jps_time+=*Jps_time1;
-    std::cout<<2<<endl;
-    //JPS
+        vector<signed char> realmap(x * y * z);
+        realmap = jps.InitJps(map_data);
+        jps.map = &realmap;
+        std::list<Point *> *Jps_path = jps.getPath(start_point, end_point, *Jps_time1, *Jps_distance1);
+        *Jps_time += *Jps_time1;
+        std::cout << 2 << endl;
+        //JPS
 
-    //RRT
-    RRT rrt(startpoint,endpoint, map_data,1,5);
-    list<Point*>* RRT_path=rrt.getPath(start_point, end_point,*RRT_time1,*RRT_distance1);
-   *RRT_time+=*RRT_time1;
-   std::cout<<3<<endl;
-	// for(auto point:*RRT_path){
-	// 	std::cout<<"x:"<<point->x<<"y:"<<point->y<<"z:"<<point->z<<endl;
-	// };
-    //RRT
-    delete(startpoint);
-    delete(endpoint);
-    delete(start_point);
-    delete(end_point);
-    delete(Astar_time1);
-    delete(Astar_distance1);
-    delete(Jps_time1);
-    delete(Jps_distance1);
-    delete(RRT_time1);
-    delete(RRT_distance1);
+        //RRT
+        RRT rrt(startpoint, endpoint, map_data, 1, 5);
+        list<Point *> *RRT_path = rrt.getPath(start_point, end_point, *RRT_time1, *RRT_distance1);
+        *RRT_time += *RRT_time1;
+        std::cout << 3 << endl;
+
+        //Dijkstra
+        Dijkstra djs;
+        djs.InitDijkstra_opt3(map_data);
+        list<Point *> *Dijkstra_path = djs.getPath_opt3(start_point, end_point, *Dijkstra_time1, *Dijkstra_distance1);
+        *Dijkstra_time += *Dijkstra_time1;
+        std::cout << 4 << endl;
+
+        double min_distance = double(X * Y * Z);
+        min_distance = std::min(min_distance, *Astar_distance1);
+        min_distance = std::min(min_distance, *Jps_distance1);
+        min_distance = std::min(min_distance, *RRT_distance1);
+        min_distance = std::min(min_distance, *Dijkstra_distance1);
+
+        *Astar_distance += (*Astar_distance1 / min_distance - 1) * 100;
+        *Jps_distance += (*Jps_distance1 / min_distance - 1) * 100;
+        *RRT_distance += (*RRT_distance1 / min_distance - 1) * 100;
+        *Dijkstra_distance += (*Dijkstra_distance1 / min_distance - 1) * 100;
+        delete (startpoint);
+        delete (endpoint);
+        delete (start_point);
+        delete (end_point);
+        delete (Astar_time1);
+        delete (Astar_distance1);
+        delete (Jps_time1);
+        delete (Jps_distance1);
+        delete (RRT_time1);
+        delete (RRT_distance1);
+        delete (Dijkstra_time1);
+        delete (Dijkstra_distance1);
     }
 
-    std::cout<<"A_star average time:"<<*Astar_time/1000<<"s"<<endl;
-    std::cout<<"Jps average time:"<<*Jps_time/1000<<"s"<<endl;
-    std::cout<<"RRT average time:"<<*RRT_time/1000<<"s"<<endl;
-    delete(Astar_time);
-    delete(Astar_distance);
-    delete(Jps_time);
-    delete(Jps_distance);
-    delete(RRT_time);
-    delete(RRT_distance);
+    std::cout << "A_star average time:" << *Astar_time / cases << "s" << std::endl;
+    std::cout << "Jps average time:" << *Jps_time / cases << "s" << std::endl;
+    std::cout << "RRT average time:" << *RRT_time / cases << "s" << std::endl;
+    std::cout << "Dijkstra average time:" << *Dijkstra_time / cases << "s" << std::endl;
+    std::cout << std::endl;
+    std::cout << "A_star average distance bias:" << *Astar_distance / cases << "%" << std::endl;
+    std::cout << "Jps average distance bias:" << *Jps_distance / cases << "%" << std::endl;
+    std::cout << "RRT average distance bias:" << *RRT_distance / cases << "%" << std::endl;
+    std::cout << "Dijkstra average distance bias:" << *Dijkstra_distance / cases << "%" << std::endl;
+    delete (Astar_time);
+    delete (Astar_distance);
+    delete (Jps_time);
+    delete (Jps_distance);
+    delete (RRT_time);
+    delete (RRT_distance);
+    delete (Dijkstra_time);
+    delete (Dijkstra_distance);
 }

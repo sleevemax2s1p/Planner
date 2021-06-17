@@ -4,16 +4,16 @@
 #include <ctime>
 #include <fstream>
 int num_data = 100; //the number of cases
-int X = 200;         //the X size of map
-int Y = 80;          //30;       //the Y size of map
-int Z = 80;          //30;       //the Z size of map
+int X = 120;         //the X size of map
+int Y = 60;          //30;       //the Y size of map
+int Z = 60;          //30;       //the Z size of map
 int x_obs_max = 3;
 int x_obs_min = 1;
-int y_obs_max = 20; //9;
+int y_obs_max = 12; //9;
 int y_obs_min = 2; //2;
-int z_obs_max = 20; //9;
+int z_obs_max = 12; //9;
 int z_obs_min = 2; //2;
-double rate = 5;  //the rate of obstacle 0~100
+double rate = 1.6;  //the rate of obstacle 0~100
 // const char file_name[] = "Datasets_with_ten_data.txt";  // the file name of map
 char file_name[] = "../map_dataset/test_data_set.txt"; // the file name of map
 
