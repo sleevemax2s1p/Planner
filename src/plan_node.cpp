@@ -11,7 +11,8 @@
 #endif
 
 // const char file_name[] = "/home/lym/code/course/src/Planner/src/test2.txt";
-const char file_name[] = "/home/lym/code/course/src/Planner/src/smalldatasetfordjs.txt";
+// const char file_name[] = "/home/lym/code/course/src/Planner/src/smalldatasetfordjs.txt";
+const char file_name[] = "/home/lym/code/course/src/Planner/src/harddatasetfordjs.txt";
 
 int main(int argc, char **argv)
 {
@@ -346,7 +347,7 @@ int main(int argc, char **argv)
     // freopen(file_name, "r", stdin);
     ifstream infile(file_name);
     int T, cases;
-    double sum = 0;
+    double sum[4] = {0,0,0,0};
     infile >> T;
     cases = T;
     while (T--)
@@ -386,7 +387,7 @@ int main(int argc, char **argv)
     v.Init();
     // A_star a;
     // a.InitAstar(map_data);
-    Dijkstra djs;
+    Dijkstra djs, djs_op1, djs_op2, djs_op3;
     Point *start_point = new Point(sx, sy, sz);
     Point *end_point = new Point(ex, ey, ez);
     double last_time = ros::Time().now().toSec();
@@ -396,7 +397,7 @@ int main(int argc, char **argv)
     //std::cout<<"plan finished-----------------------"<<endl<<"time consume:"<<*time<<"s"<<"       path total distance:"<<*distance<<"m"<<endl;
     //std::list<Point*> path;
     djs.FindPath_raw(*start_point, *end_point);
-    list<Point *> *path = djs.getPath(start_point, end_point, *time, *distance);
+    list<Point *> *path_raw = djs.getPath_raw(start_point, end_point, *time, *distance);
     ROS_INFO("DJS Finish");
 #ifndef RAND_DATA
     if (path != nullptr)
@@ -408,36 +409,59 @@ int main(int argc, char **argv)
         ROS_ERROR("Path Error");
 #endif
     //v.draw_path(a.getPath(start_point,end_point));
-    if (path == nullptr)
+    if (path_raw == nullptr)
         cout << ("Dijkstra Error!!!");
-    double now = ros::Time().now().toSec();
-    cout << "time " << now - last_time << endl;
-#ifdef RAND_DATA
-    sum += now - last_time;
-#endif
+    last_time = ros::Time().now().toSec()-last_time;
+    sum[0]+=last_time;
+    last_time = ros::Time().now().toSec();
+    djs_op1.InitDijkstra_opt1(map_data);
+    djs_op1.FindPath_opt1(*start_point, *end_point);
+    list<Point *> *path_opt1 = djs_op1.getPath_opt1(start_point, end_point, *time, *distance);
+    ROS_INFO("DJS OPT1 Finish");
+    last_time = ros::Time().now().toSec()-last_time;
+    sum[1]+=last_time;
+    last_time = ros::Time().now().toSec();
+    djs_op2.InitDijkstra_opt2(map_data);
+    djs_op2.FindPath_opt2(*start_point, *end_point);
+    list<Point *> *path_opt2 = djs_op2.getPath_opt2(start_point, end_point, *time, *distance);
+    ROS_INFO("DJS OPT2 Finish");
+    last_time = ros::Time().now().toSec()-last_time;
+    sum[2]+=last_time;
+    last_time = ros::Time().now().toSec();
+    djs_op3.InitDijkstra_opt3(map_data);
+    djs_op3.FindPath_opt3(*start_point, *end_point);
+    list<Point *> *path_opt3 = djs_op3.getPath_opt3(start_point, end_point, *time, *distance);
+    ROS_INFO("DJS OPT3 Finish");
+    last_time = ros::Time().now().toSec()-last_time;
+    sum[3]+=last_time;
+    last_time = ros::Time().now().toSec();
+// #ifdef RAND_DATA
+//     sum += now - last_time;
+// #endif
 #ifndef RAND_DATA
     while (ros::ok())
+
+#else
+        if (ros::ok())
+#endif
     {
         map.build();
-        //v.draw_path(*path);
-        // now = ros::Time().now().toSec();
-
-        //  while(now-last_time==2){
-        //      ROS_INFO("planning");
-        //     map.build();
-        //     vector<Point*> path = a.getPath(start_point,end_point);
-        //     v.draw_path(path);
-        //     last_time = now;
-        //  }
+        v.draw_path(*path_raw);
+        v.draw_path(*path_opt1);
+        v.draw_path(*path_opt2);
+        v.draw_path(*path_opt3);
         ros::spinOnce();
     }
-#endif
 
     delete (start_point);
     delete (end_point);
 #ifdef RAND_DATA
 }
-cout << "Averge time = " << sum / cases << endl;
+cout << "Averge time\nRAW = " << sum[0] / cases 
+     << " s\nOptimize 1 = "<<sum[1]/cases 
+     << " s\nOptimize 2 = "<<sum[2]/cases 
+     << " s\nOptimize 3 = "<<sum[3]/cases 
+     <<" s\n";
 #endif
 delete (time);
 delete (distance);

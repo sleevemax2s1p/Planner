@@ -6,17 +6,17 @@
 
 const int num_data = 10;        //the number of cases
 const int X = 60;               //the X size of map
-const int Y = 10;   //30;       //the Y size of map
-const int Z = 10;   //30;       //the Z size of map
+const int Y = 12;   //30;       //the Y size of map
+const int Z = 12;   //30;       //the Z size of map
 const int x_obs_max = 3;
 const int x_obs_min = 1;
-const int y_obs_max = 5;//9;
+const int y_obs_max = 10;//9;
 const int y_obs_min = 2;//2;
-const int z_obs_max = 5;//9;
+const int z_obs_max = 10;//9;
 const int z_obs_min = 2;//2;    
-const double rate = 10;     //the rate of obstacle 0~100
+const double rate = 60;     //the rate of obstacle 0~100
 // const char file_name[] = "Datasets_with_ten_data.txt";  // the file name of map
-const char file_name[] = "smalldatasetfordjs.txt";  // the file name of map
+const char file_name[] = "harddatasetfordjs.txt";  // the file name of map
 
 //  output format:
 //  first line: the number of case
@@ -106,6 +106,16 @@ int main()
         do
         {
             /* code */
+            for(int i=0; i<X;++i)
+            {
+                for(int j=0;j<Y;++j)
+                {
+                    for(int k=0;k<Z;++k)
+                    {
+                        _map[i][j][k]=0;
+                    }
+                }
+            }
             for (auto i = 0; i < X; i += get_rand(x_obs_min, x_obs_max))
             {
                 for (auto j = 0; j < Y; j += get_rand(y_obs_min, y_obs_max))
